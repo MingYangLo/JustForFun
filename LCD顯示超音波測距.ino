@@ -12,7 +12,7 @@ void setup() {
   pinMode (trig, OUTPUT);
   pinMode (echo, INPUT);
 }
-
+/*第22行的29.1為(1/攝氏20度的聲速)*/
 void loop() {
   float duration, distance;
   digitalWrite(trig, HIGH);
