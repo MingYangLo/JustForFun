@@ -15,7 +15,7 @@ int main(void)
     char board[ROWS][COLS], playerBoard[ROWS][COLS];
     int sizeShip, nShips;
 
-/*初始化方格*/
+/*Initial board*/
     for (int i = 0; i < ROWS; i++)
     {
         for (int j = 0; j < COLS; j++)
@@ -25,59 +25,59 @@ int main(void)
         }
     }
 
-/*設定敵方戰艦數量*/
-    cout << "\n歡迎來到戰艦攻防戰遊戲\n\n";
+/*Set number of ships*/
+    cout << "\nWellcome!!\n\n";
     do
     {
-        cout << "輸入你想要的敵方戰艦數量(不可大於3): ";
+        cout << "Enter Numbers of YOUR Ships (<=3): ";
         cin >> nShips;
     } while (nShips < 1 || nShips > 3);
 
-/*設定敵方戰艦大小*/
+/*Set size of ships*/
     for (int i = 1; i <= nShips; i++)
     {
         do
         {
-            cout << "敵方第 " << i << " 號戰艦大小(輸入1到3): ";
+            cout << "Size of " << i << "th of YOUR ship (1~3): ";
             cin >> sizeShip;
         } while (sizeShip < 1 || sizeShip > 3);
         generateShip(board, sizeShip);
     }
 
-/*遊戲進行*/
+/*Start Game*/
     int nBombs = 20, iGuess, jGuess;
     bool victory = false;
 
     if (nShips != 1)
-        cout << "\n有 " << nShips << "艘戰艦藏在下面海域中\n";
+        cout << "\nThere are " << nShips << " ships in the area.\n";
     else
-        cout << "\n有 " << nShips << "艘戰艦藏在下面海域中\n";
-    cout << "輸入砲彈放置位置之橫軸及縱軸\n"
-    << "例如:你想放一顆炸彈在右上角，就請輸入1,5\n"
-    << "\".\" 為可空及海域\n"
-    << "\"*\" 為擊中之砲彈\n"
-    << "\"o\" 是未擊中之砲彈\n"
-    << "\"S\" 為結束時顯示沒擊中之戰艦位置"
-    << "你有20顆砲彈\n"
-    << "遊戲開始!\n\n";
+        cout << "\nThere are " << nShips << " ships in the area.\n";
+    cout << "Enter the row and column position to aim\n"
+    << "For example, enter 1,5 for upper corner\n"
+    << "\".\" be empty area\n"
+    << "\"*\" be hit missile\n"
+    << "\"o\" be missed missile\n"
+    << "\"S\" be ship's position that was missed at the end of game"
+    << "You got 20 missiles\n"
+    << "Let's begin!\n\n";
 
-/*審核遊戲中之砲彈*/
+/*determine the missile*/
     for (int n = 1; n <= nBombs && !victory; n++)
         {
             printBoard(playerBoard);
-            cout << "\n第 " << n << "顆砲彈, 輸入放置位置之橫軸及縱軸: ";
+            cout << "\nFor the " << n << "th missile, enter the row and column position to aim: ";
             cin >> iGuess;
             cin >> jGuess;
 
             if (board[iGuess - 1][jGuess - 1] == 'S')
             {
-                cout << "擊中了\n";
+                cout << "HIT!!\n";
                 board[iGuess - 1][jGuess - 1] = '*';
                 playerBoard[iGuess - 1][jGuess - 1] = '*';
             }
             else if (board[iGuess - 1][jGuess - 1] == '.')
             {
-                cout << "擊錯了\n";
+                cout << "Missed...\n";
                 board[iGuess - 1][jGuess - 1] = 'o';
                 playerBoard[iGuess - 1][jGuess - 1] = 'o';
             }
@@ -85,14 +85,14 @@ int main(void)
         checkBoard(board, victory);
         }
 
-/*結果呈現*/
-    cout << "\n終盤:\n";
+/*End result*/
+    cout << "\nEnd:\n";
     printBoard(board);
 
     if (victory)
-        cout << "\n恭喜!你擊沉了所有戰艦!\n\n";
+        cout << "\nHooray! You hit all the ships!\n\n";
     else
-        cout << "\n你沒有擊沉所有戰艦!再試一次!\n\n";
+        cout << "\nMissed some ships! Try again!\n\n";
     return 0;
 }
 
@@ -109,7 +109,7 @@ int main(void)
         return;
     }
 
-/*敵方戰艦擺放*/
+/*Position of enemy's ships*/
 void generateShip(char board[][COLS], int size)
 {
     int iStart,jStart,ort;
@@ -121,27 +121,27 @@ void generateShip(char board[][COLS], int size)
         ort = rand()%2;
     } while (board[iStart][jStart] == 'S');
 
-/*水平擺放*/
+/*Horizon*/
     if (ort == 0)
     {
-/*確保戰艦不會超出海域*/
+/*Make sure in grid*/
         while (jStart + size >= COLS)
             {
                 jStart = rand()%COLS;
             }
-/*確保戰艦不重疊*/
+/*Make sure not in repeat area*/
         for (int j = jStart; j < jStart + size; j++)
             {
                 if (board[iStart][j] == 'S')
                 goto Randomize;
             }
-/*如滿足上述條件，執行放置戰艦*/
+/*Place ships*/
         for (int j = jStart; j < jStart + size; j++)
             {
                         board[iStart][j] = 'S';
             }
     }
-/*垂直擺放*/
+/*Verticle*/
     if (ort == 1)
     {
         while (iStart + size >= ROWS)
