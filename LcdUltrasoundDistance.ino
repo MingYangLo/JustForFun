@@ -12,13 +12,14 @@ void setup() {
   pinMode (trig, OUTPUT);
   pinMode (echo, INPUT);
 }
-/*第22行的29.1為(1/攝氏20度的聲速)*/
+
 void loop() {
   float duration, distance;
   digitalWrite(trig, HIGH);
   delayMicroseconds(1000);
   digitalWrite(trig, LOW);
   duration = pulseIn (echo, HIGH);
+  /*29.1 be (1/sound velocity in 20 Celsius)*/
   distance = (duration/2)/29.1;
   lcd.setCursor (0,0);
   lcd.print("Data No.");
