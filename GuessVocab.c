@@ -12,12 +12,12 @@ int main()
     char guessWords[MaxWords][MaxWordLenght];
     int WordsReadIn = 0;
 
-/*讀取目標檔案*/
+/*Read file*/
     FILE *pToFile = fopen("C:\\Users\\user\\Desktop\\germanwords.txt","r");
 
     if(pToFile == NULL)
     {
-        printf("檔案開啟失敗\n");
+        printf("Failed to open file!\n");
         return 0;
     }
 
@@ -60,9 +60,9 @@ int main()
         }
         printf("\n");
 
-        printf("生命值: %d\n", numLives);
-        printf("目前猜對次數:%d\n",numCorrect);
-		printf("輸入一個字母:");
+        printf("Life: %d\n", numLives);
+        printf("Correct guessing count:%d\n",numCorrect);
+		printf("Enter a character:");
 		fgets(guess, 16, stdin);
 
 		if( strncmp(guess, "quit", 4) == 0)
@@ -73,7 +73,7 @@ int main()
 
 		letterEntered = guess[0];
 
-		printf("輸入的字母:%c\n",letterEntered);
+		printf("Entered character:%c\n",letterEntered);
 
 		oldCorrect = numCorrect;
 
@@ -92,35 +92,35 @@ int main()
 			}
 		}
 
-/*猜錯、猜對之判斷*/
+/*Determine guess right or wrong*/
 		if(oldCorrect == numCorrect)
         {
             numLives--;
-            printf("\n猜錯了\n");
+            printf("\nWrong Guess!\n");
 
             if(numLives == 0)
             {
-                printf("\n重新再試一次吧\n");
+                printf("\nTry again ;(\n");
                 break;
             }
         }
         else
         {
-            printf("\n猜對了!\n");
+            printf("\nScore!\n");
         }
 
 	}
 
 	if( quit == 1 ) {
-		printf("\n太早放棄了\n");
+		printf("\nDon't give up too early!!\n");
 	}
 	else if(numLives == 0)
     {
-        printf("\n這個單字是: %s\n", guessWords[randomIndex]);
+        printf("\nThe vocab is: %s\n", guessWords[randomIndex]);
     }
     else
     {
-        printf("\n單字猜對了!再玩一次吧\n");
+        printf("\nHoorrray!Let's play again!\n");
     }
 
 
