@@ -3,7 +3,7 @@
 #include <string.h>
 
 /*
-´Ñ½L³]¸m¤è¦¡:
+Broad position setting:
 
 	:,:,:,:,:,
 	:,O,O,O,:,
@@ -52,7 +52,6 @@ int GetNumForDir(int startSq, const int dir, const int *board, const int us)
 	return found;
 }
 
-/*§ä¤T­Ó³s¦¨¤@ª½½u*/
 int FindThreeInARow(const int *board, const int ourindex, const int us)
 {
 
@@ -107,10 +106,7 @@ int WinOrLoss(const int *board, const int us)
 int MiniMax(int *board, int other) {
 
 	/*
-        ¦b³o¸Ì§Ú­Ì¥D­n­n°µªº¨Æ¦³:
-        ½T»{¿éÄ¹
-        ¤ÏÂĞ°µ°Ê§@
-        ¥H³Ì¨Î±o¤À¬°¥Ø¼Ğ
+	Check status and Aim to get best result 
 	*/
 	int MoveList[9];
 	int MoveCount = 0;
@@ -189,7 +185,7 @@ void PrintBoard(const int *board)
 	int index = 0;
 	char pceChars[] = "OX|-";
 
-	printf("\n\n¹CÀ¸ªO:\n\n");
+	printf("\n\nGame Broad:\n\n");
 	for(index = 0; index < 9; ++index)
         {
             if(index!=0 && index%3==0)
@@ -277,13 +273,13 @@ int LetComputerMove(int *board, const int side)
 	positions=0;
 	MaxSteps=0;
 	int best = MiniMax(board, side);
-	printf("©Ò¦³¹CÀ¸¥i¯à©Ê:%d ³Ì¤j²`«×:%d ",positions,MaxSteps);
+	printf("All posibility:%d Maxsteps:%d ",positions,MaxSteps);
 	if(0<best&&best<9)
-        printf("³Ì¨Î¨«ªk: %d\n",best-5);
+        printf("Best step: %d\n",best-5);
     else if (9<best&&best<14)
-        printf("³Ì¨Î¨«ªk: %d\n",best-7);
+        printf("Best step: %d\n",best-7);
     else
-        printf("³Ì¨Î¨«ªk: %d\n",best-9);
+        printf("Best step: %d\n",best-9);
 	return best;
 
 }
@@ -299,27 +295,27 @@ int LetHumanMove(const int *board)
 	while (moveOk == 0)
         {
 
-            printf("½Ğ¿é¤J¼Æ¦r1¨ì9:");
+            printf("Enter Number 1 to 9:");
             fgets(userInput, 3, stdin);
             fflush(stdin);
 
             if(strlen(userInput) != 2)
                 {
-                    printf("½Ğ¿é¤J¼Æ¦r1¨ì9\n");
+                    printf("Enter Number 1 to 9\n");
                 continue;
                 }
 
             if( sscanf(userInput, "%d", &move) != 1)
                 {
                     move = -1;
-                    printf("½Ğ¿é¤J¼Æ¦r1¨ì9\n");
+                    printf("Enter Number 1 to 9\n");
                     continue;
                 }
 
             if( move < 1 || move > 9)
                 {
                     move = -1;
-                    printf("½Ğ¿é¤J¼Æ¦r1¨ì9\n");
+                    printf("Enter Number 1 to 9\n");
                     continue;
                 }
 
@@ -328,12 +324,12 @@ int LetHumanMove(const int *board)
             if( board[ConvertToMiddle[move]]!=Empty)
                 {
                     move=-1;
-                    printf("­«½Æ¿é¤J¤F\n");
+                    printf("Repeated entering\n");
                     continue;
                 }
             moveOk = 1;
         }
-	printf("¶i¦æ°Ê§@...%d\n",(move+1));
+	printf("Proceeding...%d\n",(move+1));
 	return ConvertToMiddle[move];
 }
 
@@ -363,26 +359,25 @@ void RunGame()
                 PrintBoard(&board[0]);
             }
 
-/*¦pªG¦³¤T­Ó³s¦¨¤@ª½½u¡A¹CÀ¸§Yµ²§ô*/
 		if( FindThreeInARow(board, LastMove, Side ^ 1) == 3)
             {
-                printf("¹CÀ¸µ²§ô\n");
+                printf("End of Game!\n");
                 GameOver = 1;
                 if(Side==Noughts)
                 {
-                    printf("¹q¸£Àò³Ó\n");
+                    printf("Bot wins!\n");
                 } else
                 {
-                    printf("¤HÃşÀò³Ó\n");
+                    printf("You win!\n");
                 }
             }
 
-/*¦p¤£¯à¦A¶i¦æ°Ê§@§Y¬O¥­¤â*/
+/*å¦‚ä¸èƒ½å†é€²è¡Œå‹•ä½œå³æ˜¯å¹³æ‰‹*/
 		if(!HasEmpty(board))
             {
-                printf("¹CÀ¸µ²§ô!\n");
+                printf("End of Game!\n");
                 GameOver = 1;
-                printf("¥­¤â\n");
+                printf("Tie!\n");
             }
 	}
 
